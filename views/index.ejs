@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<% feed.map(item => { %>
+    <div style="border: 2px solid grey; ">
+        <h1><%= item.title%></h1>
+        <p><%= item.text%></p>
+        <a href="<%= item.link%>">Ссылка</a>
+    </div>
+<% }) %>
+</body>
+</html>
