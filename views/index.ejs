@@ -5,12 +5,21 @@
     <link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
+<div class="container">
 <% feed.map(item => { %>
-    <div style="border: 2px solid grey; ">
+    <div class="feed" >
         <h1><%= item.title%></h1>
+        <div class="img-container">
+            <% if(item.img != []){%>
+                <%item.img.map(img => {%>
+                    <img src="<%= img%>" width="400" height="300">
+                <%})%>
+            <%} %>
+        </div>
         <p><%= item.text%></p>
-        <a href="<%= item.link%>">Ссылка</a>
+        <a href="<%= item.link%>">Ссылка на новость</a>
     </div>
 <% }) %>
+</div>
 </body>
 </html>
