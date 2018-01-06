@@ -10,11 +10,14 @@ const URL_RSS = 'https://www.057.ua/rss';
 router.get("/news/:count", (req, res) => {
     getLinks(req.params.count, URL_RSS)
         .then(links => {
-            Promise.all(links.map(link => parseHTML(link)))
-                .then(feed => {
-                    res.render('index', {feed: feed});
-                })
-        });
+            return Promise.all(links.map(link => parseHTML(link)))
+        })
+        .then(feed => {
+            res.render('index', {feed: feed});
+        })
+        .catch(error => {
+            console.log(error);
+        })
 });
 
 function getLinks(count, url_rss) {
@@ -22,8 +25,8 @@ function getLinks(count, url_rss) {
         const links = [];
         parser.parseURL(url_rss, function (err, parsed) {
             if (!err) {
-                const slice_parsed = parsed.feed.entries.slice(0, count);
-                slice_parsed.map(item => {
+                const slice = parsed.feed.entries.slice(0, count);
+                slice.map(item => {
                     links.push(item.link);
                 });
                 resolve(links);
@@ -43,7 +46,6 @@ function parseHTML(link) {
                 resolve(feed_item);
             } else {
                 reject(error);
-                console.log("Произошла ошибка: " + error);
             }
         });
     })
